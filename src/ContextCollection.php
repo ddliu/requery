@@ -32,7 +32,12 @@ class ContextCollection implements \ArrayAccess, \Iterator {
             });
         });
 
-        return new self($rsult);
+        return new self($result);
+    }
+
+    public function then($cb) {
+        $cb($this);
+        return $this;
     }
 
     public function extract($parts = null) {

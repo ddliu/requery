@@ -20,10 +20,11 @@ class BaseTest extends PHPUnit_Framework_TestCase {
     public function testExtract() {
         $title = $this->q->find('#<title>(.*)</title>#Uis')->extract(1);
         $this->assertEquals('{{page_title}}', $title);
-    }
+        $data = $this->q->find('#<div class="block">.*</div>#Uis')->findAll('#<li>.*</li>#Uis')->findAll('#<a href="(?P<url>.*)">(?P<text>.*)</a>#Uis')
+            ->extract('text');
 
-    public function testExtractAll() {
-
+        $this->assertEquals(5, count($data));
+        $this->assertEquals('Link3', $data[2]);
     }
 
     public function testThen() {
