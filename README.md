@@ -1,4 +1,4 @@
-# requery
+# requery [![Build Status](https://travis-ci.org/ddliu/requery.svg?branch=master)](https://travis-ci.org/ddliu/requery)
 
 Query text data with the power of Regular Expression.
 
