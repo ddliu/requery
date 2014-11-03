@@ -4,7 +4,7 @@ use ddliu\requery\Context;
 class BaseTest extends PHPUnit_Framework_TestCase {
     protected $q;
     public function setUp() {
-        $this->q = new Context(file_get_contents(__DIR__.'/test.html');
+        $this->q = new Context(file_get_contents(__DIR__.'/test.html'));
     }
 
     public function testAll() {
@@ -17,7 +17,7 @@ class BaseTest extends PHPUnit_Framework_TestCase {
             ->find('`<div class="block">.*</div>`Uis')
             ->findAll('`<li>.*</li>`Uis');
 
-        $this->assertEquals(5, count($links));
+        $this->assertEquals(5, $links->count());
         $links[3]->find('`<a href="(.*)">(.*)</a>`Uis');
     }
 }

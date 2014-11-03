@@ -1,0 +1,19 @@
+{
+    "name": "ddliu/requery",
+    "description": "Query text data with the power of Regular Expression.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "dong",
+            "email": "ddliuhb@gmail.com"
+        }
+    ],
+    "require": {
+
+    },
+    "autoload": {
+        "psr-4": {
+            "ddliu\\requery\\": "src/"
+        }
+    }
+}

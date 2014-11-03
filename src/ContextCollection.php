@@ -3,8 +3,12 @@ namespace ddliu\requery;
 
 class ContextCollection implements \ArrayAccess, \Iterator {
     protected $data;
-    public function __construct() {
-        $this->data = func_get_args();
+    public function __construct($data) {
+        $this->data = $data;
+    }
+
+    public function count() {
+        return count($this->data);
     }
 
     public function find($re, $filter = null) {
@@ -91,7 +95,7 @@ class ContextCollection implements \ArrayAccess, \Iterator {
      * Implements \ArrayAccess
      */
     public function offsetExists($offset) {
-        return isset($this->data[$offset])
+        return isset($this->data[$offset]);
     }
 
     /**

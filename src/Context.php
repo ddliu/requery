@@ -18,12 +18,15 @@ class Context implements \ArrayAccess {
         return $context;
     }
 
-    public function extract($re, $filter) {
+    public function extract($re = null) {
+        if ($re === null) {
+            return $this->getMatch();
+        }
+
 
     }
 
-    public function extractAll($re, $filter = null) {
-
+    public function extractAll($re) {
     }
 
     public function find($re, $filter = null) {
@@ -63,7 +66,7 @@ class Context implements \ArrayAccess {
         $result = array();
         foreach ($matches as $match) {
             $context = new self($match);
-            if ($filter($context)) {
+            if (!$filter || $filter($context)) {
                 $result[] = $context;
             }
         }
