@@ -8,19 +8,19 @@ Query text data with the power of Regular Expression.
 use ddliu\requer\Context;
 
 $q = new Context($content);
-$q->find('`<table>.*</table>`Uis')
+$q->find('#<table>.*</table>#Uis')
     ->then(function($table) {
-        $table->findAll('`<th>(.*)</th>`Uis')
+        $table->findAll('#<th>(.*)</th>#Uis')
             ->each(function($th) {
                 echo 'th: '.$th[1]."\n";
             });
     })
     ->then(function($table) {
-        $table->findAll('`<tr>.*</tr>`Uis')
+        $table->find('#<tbody>.*</tbody>#Uis')->findAll('#<tr>.*</tr>#Uis')
             ->each(function($tr) {
-                $tr->findAll('`<td>(.*)</td>`Uis')
+                $tr->findAll('#<td>(.*)</td>#Uis')
                     ->each(function($td) {
-                        echo 'td: '.$td[1];
+                        echo 'td: '.$td[1]."\n";
                     });
             });
     });
