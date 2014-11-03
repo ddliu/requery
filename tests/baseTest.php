@@ -2,19 +2,44 @@
 use ddliu\requery\Context;
 
 class BaseTest extends PHPUnit_Framework_TestCase {
+    const REGEXP_TITLE = '#<title>(.*)</title>#Uis';
     protected $q;
     public function setUp() {
         $this->q = new Context(file_get_contents(__DIR__.'/test.html'));
     }
 
     public function testFind() {
-        $title = (string)$this->q->find('#<title>(.*)</title>#Uis')[1];
+        $title = (string)$this->q->find(self::REGEXP_TITLE)[1];
         $this->assertEquals('{{page_title}}', $title);
+    }
+
+    public function testMustFind() {
+        $title = $this->q->mustFind(self::REGEXP_TITLE)->extract(1);
+        $this->assertEquals('{{page_title}}', $title);
+    }
+
+    /**
+     * @expectedException ddliu\requery\QueryException
+     */
+    public function testMustFindException() {
+        $this->q->mustFind('#<faketag>#');
     }
 
     public function testFindAll() {
         $lists = $this->q->find('#<div class="block">.*</div>#Uis')->findAll('#<li>.*</li>#Uis');
         $this->assertEquals(5, $lists->count());
+    }
+
+    public function testMustFindAll() {
+        $lists = $this->q->find('#<div class="block">.*</div>#Uis')->mustFindAll('#<li>.*</li>#Uis');
+        $this->assertEquals(5, $lists->count());
+    }
+
+    /**
+     * @expectedException ddliu\requery\QueryException
+     */
+    public function testMustFindAllException() {
+        $this->q->mustFindAll('#<faketag>#');
     }
 
     public function testExtract() {

@@ -24,6 +24,15 @@ class ContextCollection implements \ArrayAccess, \Iterator {
         return $result?:Context::getEmptyContext();
     }
 
+    public function mustFind($re, $filter = null) {
+        $result = $this->find($re, $filter);
+        if ($result->isEmpty()) {
+            throw new QueryException('No match for regexp: '.$re);
+        }
+
+        return $result;
+    }
+
     public function findAll($re, $filter = null) {
         $result = array();
         $this->each(function($context) use ($re, $filter, &$result) {
@@ -33,6 +42,15 @@ class ContextCollection implements \ArrayAccess, \Iterator {
         });
 
         return new self($result);
+    }
+
+    public function mustFindAll($re, $filter = null) {
+        $result = $this->findAll($re, $filter);
+        if ($result->count() == 0) {
+            throw new QueryException('No match for regexp: '.$re);
+        }
+
+        return $result;
     }
 
     public function then($cb) {

@@ -70,6 +70,15 @@ class Context implements \ArrayAccess {
         return new self($match);
     }
 
+    public function mustFind($re, $filter = null) {
+        $result = $this->find($re, $filter);
+        if ($result->isEmpty()) {
+            throw new QueryException('No match found for regexp: '.$re);
+        }
+
+        return $result;
+    }
+
     public function findAll($re, $filter = null) {
         if ($this->isEmpty()) {
             return self::getEmptyContext();
@@ -88,6 +97,15 @@ class Context implements \ArrayAccess {
         }
 
         return new ContextCollection($result);
+    }
+
+    public function mustFindAll($re, $filter = null) {
+        $result = $this->findAll($re, $filter);
+        if ($result->count() == 0) {
+            throw new QueryException('No match found for regexp: '.$re);
+        }
+
+        return $result;
     }
 
     public function then($cb) {
