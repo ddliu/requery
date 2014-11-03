@@ -18,7 +18,8 @@ class BaseTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testExtract() {
-
+        $title = $this->q->find('#<title>(.*)</title>#Uis')->extract(1);
+        $this->assertEquals('{{page_title}}', $title);
     }
 
     public function testExtractAll() {

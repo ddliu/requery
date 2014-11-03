@@ -35,6 +35,36 @@ class ContextCollection implements \ArrayAccess, \Iterator {
         return new self($rsult);
     }
 
+    public function extract($parts = null) {
+        if ($parts === null) {
+            return $this->data;
+        }
+
+        if (is_array($parts)) {
+            $result = array();
+
+            foreach ($this->data as $match) {
+                $row = array();
+                foreach ($parts as $key) {
+                    if (isset($match[$key])) {
+                        $row[$key] = isset($match[$key])?$match[$key]:null;
+                    }
+                }
+
+                $result[] = $row;
+            }
+
+            return $result;
+        }
+
+        $result = array();
+        foreach ($this->data as $match) {
+            $result[] = isset($match[$parts])?$match[$parts]:null;
+        }
+
+        return $result;
+    }
+
     public function each($cb) {
         foreach ($this->data as $context) {
             if (!is_object($context)) {

@@ -6,6 +6,10 @@ class Context implements \ArrayAccess {
     protected $content;
 
     public function __construct($content) {
+        if (is_string($content)) {
+            $content = array($content);
+        }
+
         $this->content = $content;
     }
 
@@ -18,15 +22,27 @@ class Context implements \ArrayAccess {
         return $context;
     }
 
-    public function extract($re = null) {
-        if ($re === null) {
-            return $this->getMatch();
+    public function extract($parts = null) {
+        if ($this->isEmpty()) {
+            return false;
         }
 
+        if ($parts === null) {
+            return $this->content;
+        }
 
-    }
+        if (is_array($parts)) {
+            $result = array();
+            foreach ($parts as $key) {
+                if (isset($this->content[$key])) {
+                    $result[$key] = $this->content[$key];
+                }
+            }
 
-    public function extractAll($re) {
+            return $result;
+        }
+
+        return isset($this->content[$parts])?$this->content[$parts]:false;
     }
 
     public function find($re, $filter = null) {
@@ -67,7 +83,7 @@ class Context implements \ArrayAccess {
         foreach ($matches as $match) {
             $context = new self($match);
             if (!$filter || $filter($context)) {
-                $result[] = $context;
+                $result[] = $match;
             }
         }
 
@@ -78,10 +94,6 @@ class Context implements \ArrayAccess {
         $cb($this);
 
         return $this;
-    }
-
-    public function getMatch() {
-        return $this->content;
     }
 
     public function toString() {
