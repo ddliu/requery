@@ -71,4 +71,9 @@ class BaseTest extends PHPUnit_Framework_TestCase {
                     });
             });
     }
+
+    public function testArrayAccess() {
+        $lists = $this->q->find('#<div class="block">.*</div>#Uis')->findAll('#<li>.*</li>#Uis');
+        $this->assertEquals('<li><a href="#">Link4</a></li>', $lists[3]->extract(0));
+    }
 }

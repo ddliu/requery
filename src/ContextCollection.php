@@ -152,9 +152,7 @@ class ContextCollection implements \ArrayAccess, \Iterator {
      */
     public function each($cb) {
         foreach ($this->data as $context) {
-            if (!is_object($context)) {
-                $context = new Context($context);
-            }
+            $context = new Context($context);
 
             if (false === $cb($context)) {
                 break;
@@ -203,7 +201,12 @@ class ContextCollection implements \ArrayAccess, \Iterator {
      * Implements \ArrayAccess
      */
     public function offsetGet($offset) {
-        return isset($this->data[$offset])?$this->data[$offset]:null;
+        if (!isset($this->data[$offset])) {
+            return null;
+        }
+
+        $context = $this->data[$offset];
+        return new Context($context);
     }
 
     /**

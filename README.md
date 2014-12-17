@@ -25,9 +25,3 @@ $q->find('#<table>.*</table>#Uis')
             });
     });
 ```
-
-## Changelog
-
-### v0.1.0 (2014-11-03) 
-
-Initial release.
